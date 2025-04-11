@@ -2,6 +2,7 @@
 Source code for the Sagemath based software to find abelian surface simplicity
 Program for searching for abelian submanifolds of order 2 associated with a product of elliptic curves.
 To begin simply download 'surface2.sage' and use load('surface2.sage') to load the program to your notebook. (If surface2.safe is not on the same folder as your notebook you must specify the path to it.)
+All methods are described in the file. This program was originally coded in spanish and then translated into english, so there may be some variables still written in spanish. All comments, methods and instructions are translated.
 The code is built around the Surface2 class.
 To begin, a Surface2(d2,t1,t2,t3) object is created using the matrix parameters that define the system of 3 equations.
 
