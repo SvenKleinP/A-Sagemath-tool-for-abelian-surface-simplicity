@@ -122,7 +122,7 @@ class Surface2:
 #The "full_scan" method can be selected to test all pints in the bounds of the system.
 #point_limit: sets a maximum number of tests before the search is concluded. If no limit is setm 10000^order is used.
 #OUTPUT: returns 0 upon finishing. Shows the sub manyfold plot and prints all the obtained results.
-    def resolucion(self, order, method = "ellipsoid_looping", point_limit = -1):
+    def resolution(self, order, method = "ellipsoid_looping", point_limit = -1):
         if(not self.selfCheck()):
             print("Error in the curve parameters.")
             return -1
