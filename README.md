@@ -19,7 +19,7 @@ order: determines how thin is the grid from which samples are taken in the space
 method: Choses one of the two methods avilable for the seach. The default methos is 'ellipsoid_looping', it takes samples around the areas in which solutions can be found and only searches around them. It's the fastest method, but there is a chance it may become unstable or not find a certain solution or that it finds the same solution twice in certain edge cases.
 The second method is called 'full_scan'. This method makes a full sweep in the area that bounds the ellipsoid with the solutions. If there are solutions with a certain given order this method will find them, with the disadvantage that it is slower and scales with notation O(n^3) with n being 'order'.
 
-point_limit: This is a value to limit the ammount of samples taken by the program so that the user may controll the execution time. If no value is given, the value 10000^rder is used.
+point_limit: This is a value to limit the ammount of samples taken by the program so that the user may controll the execution time. If no value is given, the value 10000^order is used.
 
 The expected output is a queue from the 'collections' library with all the 6 value tuples that solve the system. There will also be printed a 3D graph of the ellipsoid surface with the solutions, the 6 parameter tuples that solve the system and the ammount of solutions found.
 
