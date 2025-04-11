@@ -21,8 +21,8 @@ class Surface2:
         self.hh = d2
         self.ii = -d2*self.t2i/self.t3i
         
-#checks if the surface matrix is positive
-#OUTPUT: True if the surface matrix is positive. False it is not
+#@brief checks if the surface matrix is positive
+#@return True if the surface matrix is positive. False it is not
     def selfCheck(self):
         if(self.aa<=0):
             return False
@@ -36,21 +36,21 @@ class Surface2:
             return False
         return True
     
-#method that calculates the value of the surface function for a given 3 variable tuple
-#INPUT: the values of a12, a13 y a14 that are being evaluated in the equation
-#OUTPUT: the value of the surface function for a given a12, a13 and a14 input
+#@brief method that calculates the value of the surface function for a given 3 variable tuple
+#@param a12, a13 and a14 are the values that are being evaluated in the equation
+#@return the value of the surface function for a given a12, a13 and a14 input
     def calculate(self,a12,a13,a14):
         return (a12*a12*self.aa + a13*a13*self.bb + a14*a14*self.cc + a13*a14*self.dd + a12*a14*self.ee + a12*a13*self.ff + a12*self.gg + a13*self.hh + a14*self.ii)
     
-#method that returns the surface equations with variables 'var' a12, a13 y a14
-#OUTPUT: the surface equationde eq(a12,a13,a14)
+#@brief: method that returns the surface equations with variables 'var' a12, a13 y a14
+#@return: the surface equationde eq(a12,a13,a14)
     def equation(self):
         a12,a13,a14 = var('a12,a13,a14')
         return a12*a12*self.aa + a13*a13*self.bb + a14*a14*self.cc + a13*a14*self.dd + a12*a14*self.ee + a12*a13*self.ff + a12*self.gg + a13*self.hh + a14*self.ii
     
-#method to find the maximum and minimum in each axle of the figure
-#returns: 3*2*3array with the coordinates of the maximums and minimums of a12, a13 and a14 [[a12min,a12max],[a13min,a13max],[a14min,a14max]]
+#@brief method to find the maximum and minimum in each axle of the figure
 #functions finding the gradient of the figure that is in the direction of each axle.
+#@return 3*2*3array with the coordinates of the maximums and minimums of a12, a13 and a14 [[a12min,a12max],[a13min,a13max],[a14min,a14max]]
     def bounds(self):
         var('x y z')
         minmaxx = solve((x^2*self.aa + y^2*self.bb + z^2*self.cc + y*z*self.dd + x*z*self.ee + x*y*self.ff + x*self.gg + y*self.hh + z*self.ii==0,
@@ -71,9 +71,9 @@ class Surface2:
                 [minmaxz[1][0].rhs(),minmaxz[1][1].rhs(),minmaxz[1][2].rhs()]],key = itemgetter(2))
         return[limitesx,limitesy,limitesz]
     
-#method to undo the simplification process. Returns the 6 variable array
-#INPUT: the a12, a13 y a14 variables for a given sub manyfold
-#OUTPUT: an array with the variables [a12,a13,a14,a23,a24,a34]
+#@brief method to undo the simplification process. Returns the 6 variable array
+#@param a12, a13 and a14 are variables for a given sub manyfold
+#@return an array with the variables [a12,a13,a14,a23,a24,a34]
     def reverse(self,a12,a13,a14):
         a24 = -self.d2 -a13*self.d2
         a23 = (a14*self.d2*self.t1i - self.d2*self.t2i - 2*a13*self.d2*self.t2i + 2*a12*self.t2i*self.t2r - a12*self.t1r*self.t3i - 
@@ -83,18 +83,18 @@ class Surface2:
  2*a13*self.d2*self.t2i*self.t3r - 2*a12*self.t2i*self.t2r*self.t3r + a12*self.t1i*pow(self.t3r,2))/(self.d2*self.t3i)
         return [a12,a13,a14,a23,a24,a34]
     
-#Plots in 3D the sub manyfold in the coordinates a12, a13 y a14
-#INPUT: A 3*2 array of the superior and inferiorlimits of a12,a13 y a14
+#@brief Plots in 3D the sub manyfold in the coordinates a12, a13 y a14
+#@param 3*2 array of the superior and inferiorlimits of a12,a13 y a14
 #[[a12min,a12max],[a13min,a13max],[a14min,a14max]]
-#Output: a 3D plot of the ellipsoid.
+#@return a 3D plot of the ellipsoid.
     def plt(self,limites):
         var('a12 a13 a14')
         return implicit_plot3d(self.aa*a12^2 + self.bb*a13^2 + self.cc*a14^2 + a13*a14*self.dd + a12*a14*self.ee + a12*a13*self.ff + a12*self.gg + a13*self.hh + a14*self.ii==0,
                                (a12,limites[0][0],limites[0][1]),(a13,limites[1][0],limites[1][1]),(a14,limites[2][0],limites[2][1]))
 
-#Evaluates the 3 original equations with the input variable values for the given sub manyfold
-#INPUT: a12, a13, a14, a23, a24 and a34 variables for the tuple to evaluate. functions better inputing them in fraction form
-#OUTPUT: returns True if the 3 equations are exactly equal to 0. False in any other case.
+#@brief Evaluates the 3 original equations with the input variable values for the given sub manyfold
+#@param a12, a13, a14, a23, a24 and a34 variables for the tuple to evaluate. functions better inputing them in fraction form
+#@return returns True if the 3 equations are exactly equal to 0. False in any other case.
     def ascertainment(self,a12,a13,a14,a23,a24,a34):
         a = SR(a23)
         b = SR(a24)
@@ -115,13 +115,12 @@ class Surface2:
             return False
         return True
 
-#Generates the surface equation, bounds of the solution area and evaluates the surface to find solutions.
-#INPUT: the otder or ammount of significant digits that the grid that will divide the space will have.
-#order the size of the discretization that will subdivide the space of the system. it is subdivided in spaces of 10^-n
-#method: the method used for the seatch. "ellipsoid_looping" is the default method.
+#@brief Generates the surface equation, bounds of the solution area and evaluates the surface to find solutions.
+#@param order the size of the discretization that will subdivide the space of the system. it is subdivided in spaces of 10^-n
+#@param method the method used for the seatch. "ellipsoid_looping" is the default method.
 #The "full_scan" method can be selected to test all pints in the bounds of the system.
-#point_limit: sets a maximum number of tests before the search is concluded. If no limit is setm 10000^order is used.
-#OUTPUT: returns 0 upon finishing. Shows the sub manyfold plot and prints all the obtained results.
+#@param point_limit sets a maximum number of tests before the search is concluded. If no limit is setm 10000^order is used.
+#@return 0 upon finishing. Shows the sub manyfold plot and prints all the obtained results. Returns -1 in case of an error.
     def resolution(self, order, method = "ellipsoid_looping", point_limit = -1):
         if(not self.selfCheck()):
             print("Error in the curve parameters.")
